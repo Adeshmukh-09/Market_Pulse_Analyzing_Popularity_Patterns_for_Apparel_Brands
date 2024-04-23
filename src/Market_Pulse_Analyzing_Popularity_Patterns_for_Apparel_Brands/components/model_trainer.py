@@ -13,7 +13,10 @@ from src.Market_Pulse_Analyzing_Popularity_Patterns_for_Apparel_Brands.logger im
 from src.Market_Pulse_Analyzing_Popularity_Patterns_for_Apparel_Brands.exception import CustomException
 from src.Market_Pulse_Analyzing_Popularity_Patterns_for_Apparel_Brands.utils import save_object
 from src.Market_Pulse_Analyzing_Popularity_Patterns_for_Apparel_Brands.utils import model_evaluation
-
+import mlflow
+import mlflow.sklearn
+from urllib.parse import urlparse
+import json
 
 @dataclass
 
@@ -29,9 +32,9 @@ class ModelTrainer:
         precisionscore = precision_score(actual,predict, average = 'weighted')
         f1score = f1_score(actual,predict, average = 'weighted')
         recallscore = recall_score(actual,predict, average = 'weighted')
-        confusionmatrix = confusion_matrix(actual,predict)
+        
 
-        return accuracyscore, precisionscore, f1score, recallscore, confusionmatrix
+        return accuracyscore, precisionscore, f1score, recallscore
     
     def initiate_model_trainer(self,train_array,test_array):
         try:
@@ -90,6 +93,36 @@ class ModelTrainer:
 
             print("This is the best Model")
             print(best_model)
+
+            model_name = list(parameters.keys())
+
+            actual_model = ''
+            for model in model_name:
+                if best_model_name == model:
+                    actual_model = actual_model + model
+
+            best_parameters = parameters[actual_model]
+
+            mlflow.set_registry_uri('https://dagshub.com/Adeshmukh-09/Market_Pulse_Analyzing_Popularity_Patterns_for_Apparel_Brands.mlflow')
+            tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
+
+            with mlflow.start_run():
+                predicted_qualities = best_model.predict(X_test)
+                (accuracyscore, precisionscore, f1score, recallscore) = self.evaluation_metric(y_test,predicted_qualities)
+
+                mlflow.log_params(best_parameters)
+                mlflow.log_metric('accuracy_score',accuracyscore)
+                mlflow.log_metric('precision_score',precisionscore)
+                mlflow.log_metric('F1_score',f1score)
+                mlflow.log_metric('recall_score',recallscore)
+                
+
+                if tracking_url_type_store != 'file':
+                    mlflow.sklearn.log_model(best_model, 'model', registered_model_name = actual_model)
+
+                else:
+                    mlflow.sklearn.log_model(best_model, 'model')
+
 
             if best_model_score < 0.6:
                 raise CustomException('No best model found')
