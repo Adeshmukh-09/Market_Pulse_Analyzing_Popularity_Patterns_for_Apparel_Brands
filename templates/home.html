@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div class="login">
+      <h1>Analyzing Popularity for Apparel Brands</h1>
+
+      <form action="{{ url_for('predict_datapoint')}}" method="post">
+        <h1>
+          <legend>Store person fill in the fields below to predict and analyze the popularity of the brand.</legend>
+        </h1>
+        <div class="mb-3">
+          <label class="form-label">Store Ratio</label>
+          <input
+            class="form-control"
+            type="number"
+            name="Store Ratio"
+            placeholder="Enter the ratio of the store"
+            step="0.000001"
+            min="0"
+            max="1000000000"
+          />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Basket Ratio</label>
+            <input
+              class="form-control"
+              type="number"
+              name="Basket Ratio"
+              placeholder="Enter the ratio of the basket"
+              step="0.000001"
+              min="0"
+              max="1000000000"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Category 1</label>
+            <input
+              class="form-control"
+              type="number"
+              name="Category 1"
+              placeholder="Enter the Category 1"
+              min="0"
+              max="1000000000"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Store Score</label>
+            <input
+              class="form-control"
+              type="number"
+              name="Store Score"
+              placeholder="Enter the store score"
+              step="0.000001"
+              min="-1000000000"
+              max="1000000000"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Category 2</label>
+            <input
+              class="form-control"
+              type="number"
+              name="Category 2"
+              placeholder="Enter the Category 2"
+              min="0"
+              max="1000000000"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Store Presence</label>
+            <input
+              class="form-control"
+              type="number"
+              name="Store Presence"
+              placeholder="Enter the store presence"
+              step="0.000001"
+              min="0"
+              max="1000000000"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Score 1</label>
+            <input
+              class="form-control"
+              type="number"
+              name="First Score"
+              placeholder="Enter the first score"
+              step="0.000001"
+              min="0"
+              max="1000000000"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Score 2</label>
+            <input
+              class="form-control"
+              type="number"
+              name="Second Score"
+              placeholder="Enter the second score"
+              step="0.000001"
+              min="0"
+              max="1000000000"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Score 3</label>
+            <input
+              class="form-control"
+              type="number"
+              name="Third Score"
+              placeholder="Enter the third score"
+              step="0.000001"
+              min="0"
+              max="1000000000"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Score 4</label>
+            <input
+              class="form-control"
+              type="number"
+              name="Fourth Score"
+              placeholder="Enter the fourth score"
+              step="0.000001"
+              min="0"
+              max="1000000000"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Time</label>
+            <input
+              class="form-control"
+              type="number"
+              name="Time"
+              placeholder="Enter the time"
+              step="0.000001"
+              min="0"
+              max="1000000000"
+            />
+          </div>
+        <div class="mb-3">
+          <input
+            class="btn btn-primary"
+            type="submit"
+            value="Click to find out the popularity of the brand"
+            required
+          />
+        </div>
+      </form>
+      <h2>The popularity of the brands varries from 0 to 5.</h2>
+      <h2>Popularity of the brand is: {{final_result}}</h2>
+    </div>
+  </body>
+</html>
