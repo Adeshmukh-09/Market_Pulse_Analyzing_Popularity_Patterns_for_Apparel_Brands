@@ -55,7 +55,7 @@ if __name__ == "__main__":
         train_arr, test_arr = data_transformation.initiate_data_transformation(train_data_path,test_data_path)
         model_trainer = ModelTrainer()
         print(model_trainer.initiate_model_trainer(train_arr, test_arr))
-        app.run(host = '0.0.0.0', port = 8080, debug = True )
+        app.run(host = '0.0.0.0', port = 8080)
     
     except Exception as e:
         logging.info('Exception Ocurred')
